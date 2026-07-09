@@ -1,0 +1,65 @@
+{
+  "name": "cogntio-agentcore-runtime",
+  "displayName": "cogntio-agentcore-runtime",
+  "description": "Cognito-authenticated integration with AgentCore Runtime to interact with coding-agents",
+  "publisher": "camdang",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.125.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:agent.login",
+    "onCommand:agent.chat",
+    "onCommand:agent.logout"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "agent.login",
+        "title": "Agent Login"
+      },
+      {
+        "command": "agent.chat",
+        "title": "Agent Chat"
+      },
+      {
+        "command": "agent.logout",
+        "title": "Agent Logout"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "axios": "^1.18.1",
+    "dotenv": "17.4.2"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.125.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "typescript-eslint": "^8.61.1",
+    "eslint": "^10.5.0",
+    "typescript": "^6.0.3",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  },
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/camdang/vscode-ext-cognito-agentcore-runtime.git"
+  }
+}
