@@ -11,13 +11,12 @@ export class AgentApi {
         private token: string
     ) {}
 
-    async askAgent(prompt: string): Promise<string> {
+    async askAgent(payload: any): Promise<axios.AxiosResponse<any, any, {}>> {
         const response = await axios.post(
                 `https://${AGENTCORE_API_HOST}`,
+                payload,
                 {
-                    prompt
-                },
-                {
+                    timeout: 900000,
                     headers: {
                         Authorization:
                             `Bearer ${this.token}`
@@ -25,6 +24,6 @@ export class AgentApi {
                 }
             );
 
-        return response.data.response;
+        return response;
     }
 }

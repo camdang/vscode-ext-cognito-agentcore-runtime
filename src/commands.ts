@@ -54,13 +54,33 @@ export function registerCommands(context: vscode.ExtensionContext, auth: AuthSer
                             title: "Agent working..."
                         },
                         async () => {
-                            const result = await api.askAgent(prompt);
-                            const doc = await vscode.workspace.openTextDocument({
-                                 content: result,
-                                 language: "markdown"
-                               });
+                            const payload = {
+                                prompt
+                            };
 
-                            await vscode.window.showTextDocument(doc);
+                            vscode.window.showInformationMessage(
+                                `payload: ${JSON.stringify(payload, null, 2)}`
+                            );
+
+                            const result = await api.askAgent(payload);
+
+                            if (result.status === 200) {
+                                const sessionId = result.data.sessionId;
+                                vscode.window.showInformationMessage(
+                                    `sessionId: ${sessionId}`
+                                );
+
+                                const response = result.data.response;
+                                const doc = await vscode.workspace.openTextDocument({
+                                    content: response,
+                                    language: 'plaintext'
+                                });
+                                await vscode.window.showTextDocument(doc);
+                            } else {
+                                vscode.window.showInformationMessage(
+                                    `status: ${result.status}/${result.statusText}, message: ${JSON.stringify(result.data, null, 2)}`
+                                );
+                            }
                         }
                     );
             }
