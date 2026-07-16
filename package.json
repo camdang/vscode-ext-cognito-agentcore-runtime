@@ -30,6 +30,14 @@
         "command": "agent.logout",
         "title": "Agent Logout"
       }
+    ],
+    "chatParticipants": [
+      {
+        "id": "camdang.agentcore-chat",
+        "name": "agentcore",
+        "description": "Chat with your AgentCore-backed coding agent",
+        "isSticky": true
+      }
     ]
   },
   "scripts": {
