@@ -2,29 +2,6 @@ import * as vscode from "vscode";
 import { AuthService } from "./auth";
 import { AgentApi } from "./api";
 
-function buildMessageHistory(
-    chatContext: vscode.ChatContext
-): { role: "user" | "assistant"; content: string }[] {
-    const messages: { role: "user" | "assistant"; content: string }[] = [];
-
-    for (const turn of chatContext.history) {
-        if (turn instanceof vscode.ChatRequestTurn) {
-            messages.push({ role: "user", content: turn.prompt });
-        } else if (turn instanceof vscode.ChatResponseTurn) {
-            const text = turn.response
-                .map(part =>
-                    part instanceof vscode.ChatResponseMarkdownPart
-                        ? part.value.value
-                        : ""
-                )
-                .join("");
-            messages.push({ role: "assistant", content: text });
-        }
-    }
-
-    return messages;
-}
-
 export function registerChatParticipant(
     context: vscode.ExtensionContext,
     auth: AuthService
@@ -48,11 +25,8 @@ export function registerChatParticipant(
 
         const api = new AgentApi(accessToken);
 
-        const messages = buildMessageHistory(chatContext);
-        messages.push({ role: "user", content: request.prompt });
-
         try {
-            const result = await api.askAgent({ messages });
+            const result = await api.askAgent({ prompt: request.prompt });
 
             if (token.isCancellationRequested) {
                 return;
